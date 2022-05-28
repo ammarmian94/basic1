@@ -19,18 +19,27 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+//  Category Controller
 Route::get('/category/all', [CategoryController::class, 'AllCat'])->name('all.category');
 Route::post('/category/add', [CategoryController::class, 'AddCat'])->name('add.category');
+Route::get('/category/edit/{id}', [CategoryController::class, 'Edit']);
+Route::post('/category/update/{id}', [CategoryController::class, 'Update']);
+Route::get('/softDelete/category/{id}', [CategoryController::class, 'SoftDelete']);
+Route::get('/category/edit/{id}', [CategoryController::class, 'Restore']);
+Route::get('/PDelete/category/{id}', [CategoryController::class, 'PDelete']);
 
+
+// Auth Routing
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
     Route::get('/dashboard', function () {
-        
+
         $users = User::all();
-        
+
         return view('dashboard', compact('users'));
     })->name('dashboard');
 });
